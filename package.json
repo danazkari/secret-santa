@@ -1,13 +1,36 @@
 {
   "name": "secret-santa",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs"
+  "dependencies": {
+    "@prisma/client": "6.10.1",
+    "cloudinary": "^2.11.0",
+    "nanoid": "^6.0.2",
+    "next": "16.4.2",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@tailwindcss/turbopack": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@vitest/coverage-v8": "^2.1.0",
+    "eslint": "^9",
+    "eslint-config-next": "16.4.2",
+    "prisma": "6.10.1",
+    "tailwindcss": "^4",
+    "typescript": "^5",
+    "vitest": "^2.1.0"
+  },
+  "packageManager": "pnpm@12.15.0"
 }

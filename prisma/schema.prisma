@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Event {
+  id          String       @id @default(cuid())
+  name        String
+  date        DateTime
+  budget      Int          // in cents
+  bannerUrl   String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  participants Participant[]
+  assignments Assignment[]
+  tags        Tag[]
+}
+
+model Participant {
+  id        String       @id @default(cuid())
+  name      String
+  email     String?
+  eventId   String
+  event     Event        @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  tags      Tag[]        // many-to-many via join table
+  assignment Assignment?  @relation("Giver")
+  received  Assignment?   @relation("Receiver")
+}
+
+model Tag {
+  id            String        @id @default(cuid())
+  name          String
+  eventId       String
+  event         Event         @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  participants  Participant[]
+  @@unique([eventId, name])   // event-scoped tag names
+}
+
+model Assignment {
+  id           String       @id @default(cuid())
+  eventId      String
+  event        Event        @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  giverId      String       @unique
+  giver        Participant  @relation("Giver", fields: [giverId], references: [id])
+  receiverId   String       @unique
+  receiver     Participant  @relation("Receiver", fields: [receiverId], references: [id])
+  magicLink    String       @unique @default(nanoid(8))
+  createdAt    DateTime     @default(now())
+}
